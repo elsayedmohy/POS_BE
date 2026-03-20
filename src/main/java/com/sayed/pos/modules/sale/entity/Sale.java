@@ -1,5 +1,6 @@
 package com.sayed.pos.modules.sale.entity;
 
+import com.sayed.pos.modules.store.entity.Store;
 import com.sayed.pos.modules.user.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

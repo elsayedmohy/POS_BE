@@ -2,6 +2,7 @@ package com.sayed.pos.modules.product.entity;
 
 import com.sayed.pos.modules.category.entity.Category;
 import com.sayed.pos.modules.sale.entity.SaleItem;
+import com.sayed.pos.modules.store.entity.Store;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
