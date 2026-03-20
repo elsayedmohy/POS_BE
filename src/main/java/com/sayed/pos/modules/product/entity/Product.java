@@ -54,8 +54,7 @@ public class Product {
     @Column(name = "barcode", length = 100)
     private String barcode;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false, updatable = false)
     private Instant createdAt;
 
     @OneToMany(mappedBy = "product")
