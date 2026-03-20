@@ -2,6 +2,7 @@ package com.sayed.pos.modules.auth.service;
 
 
 import com.sayed.pos.common.dto.Role;
+import com.sayed.pos.common.exception.ConflictException;
 import com.sayed.pos.common.exception.ResourceNotFoundException;
 import com.sayed.pos.config.JwtConfig;
 import com.sayed.pos.modules.auth.dto.*;
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,13 +47,8 @@ public class AuthServiceImpl implements AuthService {
                         request.getPassword()
                 )
         );
-        var user =  userRepository.findByEmail(request.getEmail()).orElse(null);
-        if(user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        if (!passwordEncoder.matches(request.getPassword() , user.getPassword())) {
-            System.out.println("wrong password");
-        }
+        var user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         var accessToken = jwtService.generateAccessToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         var cookie = new Cookie("refresh_token", refreshToken);
@@ -64,8 +61,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthUserInfo register(RegisterRequest registerRequest) {
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+            throw new ConflictException("Email already exists");
+        }
         var store = storeService.create(registerRequest.getStoreName());
-        System.out.println("store id " + store.getId());
         var user = userMapper.toUser(registerRequest);
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setRole(Role.ADMIN.name());
@@ -76,12 +75,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtResponse refresh(String token) {
-        if(!jwt.validateToken(token)) {
-            System.out.println("wrong token");
+        if (!jwt.validateToken(token)) {
+            throw new BadCredentialsException("Invalid refresh token");
         }
-
         var userId = jwt.getUserIdFromToken(token);
-        var user = userRepository.findById(userId).orElse(null);
+        var user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return new JwtResponse(jwtService.generateAccessToken(user));
     }
 }
