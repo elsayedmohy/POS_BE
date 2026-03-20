@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: pos
+  datasource:
+    url: jdbc:mysql://localhost:3306/pos_api?createDatabaseIfNotExist=true
+    username: root
+    password: password0000
