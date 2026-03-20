@@ -39,7 +39,7 @@ public class Store {
     private String phone;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at")
+        @Column(name = "created_at", insertable = false, updatable = false)
     private Instant createdAt;
 
     @OneToMany(mappedBy = "store")
