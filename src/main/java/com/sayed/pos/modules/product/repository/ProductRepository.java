@@ -16,4 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p where  p.id = :productId and p.store.id = :storeId")
     Optional<Product> findByIdAndStoreId (Long productId,Long storeId);
+
+
+    Optional<Product> findTopByStore_Id(Long storeId);
 }
