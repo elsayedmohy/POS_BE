@@ -1,5 +1,6 @@
 package com.sayed.pos.common.exception;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +17,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<?> handleConflict(ConflictException ex) {
         return ResponseEntity.status(409).body(ex.getMessage());
+    }
+
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<?> handleBadRequest(BadRequestException ex) {
+        return ResponseEntity.status(403).body(ex.getMessage());
     }
 
     @ExceptionHandler(BadCredentialsException.class)

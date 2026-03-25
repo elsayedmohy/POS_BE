@@ -46,8 +46,8 @@ public class Sale {
         @Column(name = "created_at", insertable = false, updatable = false)
     private Instant createdAt;
 
-    @OneToMany(mappedBy = "sale")
-    private Set<SaleItem> saleItems = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "sale" , cascade = CascadeType.ALL)
+    private Set<SaleItem> items = new LinkedHashSet<>();
 
 
 }
