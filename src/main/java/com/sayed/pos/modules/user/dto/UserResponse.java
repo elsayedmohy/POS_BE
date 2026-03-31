@@ -1,15 +1,14 @@
-package com.sayed.pos.modules.auth.dto;
+package com.sayed.pos.modules.user.dto;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @AllArgsConstructor
 @Data
-public class AuthUserInfo {
+public class UserResponse {
     private Long id;
     private String name;
     private String email;

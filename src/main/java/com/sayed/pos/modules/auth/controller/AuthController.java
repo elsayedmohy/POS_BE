@@ -3,6 +3,7 @@ package com.sayed.pos.modules.auth.controller;
 import com.sayed.pos.common.response.ApiResponse;
 import com.sayed.pos.modules.auth.dto.*;
 import com.sayed.pos.modules.auth.service.AuthService;
+import com.sayed.pos.modules.user.dto.UserResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -17,9 +18,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<AuthUserInfo>> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<ApiResponse<UserResponse>> register(@Valid @RequestBody RegisterRequest request) {
         try {
-            AuthUserInfo response = authService.register(request);
+            UserResponse response = authService.register(request);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(ApiResponse.success(response, "تم إنشاء الحساب بنجاح"));
         } catch (RuntimeException e) {

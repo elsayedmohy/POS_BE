@@ -27,36 +27,74 @@ INSERT INTO settings (store_id, currency, tax_percentage) VALUES
 -- -------------------------------
 -- 3. Categories
 -- -------------------------------
-INSERT INTO categories (store_id, name) VALUES
--- For all stores
-(1,'Beverages'),(1,'Snacks'),(1,'Dairy'),
-(2,'Beverages'),(2,'Snacks'),(2,'Dairy'),
-(3,'Beverages'),(3,'Snacks'),(3,'Dairy'),
-(4,'Beverages'),(4,'Snacks'),(4,'Dairy'),
-(5,'Beverages'),(5,'Snacks'),(5,'Dairy'),
-(6,'Beverages'),(6,'Snacks'),(6,'Dairy'),
-(7,'Beverages'),(7,'Snacks'),(7,'Dairy'),
-(8,'Beverages'),(8,'Snacks'),(8,'Dairy'),
-(9,'Beverages'),(9,'Snacks'),(9,'Dairy'),
-(10,'Beverages'),(10,'Snacks'),(10,'Dairy');
+INSERT INTO categories (id,store_id, name) VALUES
+                                            (1,1, 'Beverages'),
+                                            (2,1, 'Dairy Products'),
+                                            (3,1, 'Bakery'),
+                                            (4,1, 'Snacks'),
+                                            (5,1, 'Frozen Foods'),
+                                            (6,1, 'Fruits & Vegetables'),
+                                            (7,1, 'Meat & Poultry'),
+                                            (8,1, 'Seafood'),
+                                            (9,1, 'Canned Food'),
+                                            (10,1, 'Grains & Rice'),
+                                            (11,1, 'Pasta & Noodles'),
+                                            (12,1, 'Spices & Seasonings'),
+                                            (13,1, 'Oils & Sauces'),
+                                            (14,1, 'Sweets & Chocolate'),
+                                            (15,1, 'Breakfast Items'),
+                                            (16,1, 'Cleaning Supplies'),
+                                            (17,1, 'Personal Care'),
+                                            (18,1, 'Baby Products'),
+                                            (19,1, 'Pet Supplies'),
+                                            (20,1, 'Stationery'),
+                                            (21,1, 'Tobacco'),
+                                            (22,1, 'Health & Wellness');
 
 -- -------------------------------
 -- 4. Products
 -- -------------------------------
 -- 5 products per store
-INSERT INTO products (store_id, category_id, name, price, stock, barcode) VALUES
--- Store 1
-(1,1,'Coca Cola 500ml',10,50,'100000000001'),
-(1,1,'Pepsi 500ml',9,60,'100000000002'),
-(1,2,'Lays Chips',15,80,'100000000003'),
-(1,2,'Doritos',20,70,'100000000004'),
-(1,3,'Milk 1L',12,40,'100000000005'),
--- Store 2
-(2,4,'Coca Cola 330ml',8,50,'100000000006'),
-(2,4,'Pepsi 330ml',7,60,'100000000007'),
-(2,5,'Pringles',25,30,'100000000008'),
-(2,5,'KitKat',10,100,'100000000009'),
-(2,6,'Cheese 200g',18,50,'100000000010');
+INSERT INTO products
+(store_id, category_id, name, price, cost, stock, barcode, created_at, active, description) VALUES
+
+-- Beverages
+(1, 1, 'Coca Cola 1L', 15.00, 10.00, 100, '6223000000011', NOW(), 1, 'Soft drink'),
+(1, 1, 'Pepsi Can 330ml', 8.00, 5.50, 150, '6223000000012', NOW(), 1, 'Carbonated drink'),
+(1, 1, 'Mineral Water 1.5L', 7.00, 4.00, 200, '6223000000013', NOW(), 1, 'Drinking water'),
+
+-- Dairy
+(1, 2, 'Milk 1L', 25.00, 18.00, 80, '6223000000021', NOW(), 1, 'Fresh milk'),
+(1, 2, 'Cheese 500g', 45.00, 30.00, 60, '6223000000022', NOW(), 1, 'White cheese'),
+(1, 2, 'Yogurt Cup', 6.00, 3.50, 120, '6223000000023', NOW(), 1, 'Natural yogurt'),
+
+-- Bakery
+(1, 3, 'Baladi Bread', 2.00, 1.00, 300, '6223000000031', NOW(), 1, 'Traditional bread'),
+(1, 3, 'Toast Bread', 20.00, 14.00, 90, '6223000000032', NOW(), 1, 'Sliced bread'),
+
+-- Snacks
+(1, 4, 'Chipsy Salt 50g', 5.00, 3.00, 200, '6223000000041', NOW(), 1, 'Potato chips'),
+(1, 4, 'Doritos Nacho', 10.00, 6.50, 140, '6223000000042', NOW(), 1, 'Tortilla chips'),
+
+-- Frozen
+(1, 5, 'Frozen Chicken 1kg', 120.00, 95.00, 40, '6223000000051', NOW(), 1, 'Frozen poultry'),
+(1, 5, 'Frozen Fries 1kg', 35.00, 25.00, 70, '6223000000052', NOW(), 1, 'Potato fries'),
+
+-- Fruits & Vegetables
+(1, 6, 'Tomatoes 1kg', 12.00, 8.00, 100, '6223000000061', NOW(), 1, 'Fresh tomatoes'),
+(1, 6, 'Bananas 1kg', 18.00, 12.00, 90, '6223000000062', NOW(), 1, 'Fresh bananas'),
+
+-- Meat
+(1, 7, 'Beef 1kg', 280.00, 250.00, 25, '6223000000071', NOW(), 1, 'Fresh beef'),
+(1, 7, 'Chicken Breast 1kg', 140.00, 110.00, 35, '6223000000072', NOW(), 1, 'Boneless chicken'),
+
+-- Canned
+(1, 9, 'Tuna Can', 25.00, 18.00, 130, '6223000000091', NOW(), 1, 'Canned tuna'),
+(1, 9, 'Beans Can', 10.00, 6.00, 160, '6223000000092', NOW(), 1, 'Canned beans'),
+
+-- Grocery
+(1, 10, 'Rice 1kg', 30.00, 24.00, 110, '6223000000101', NOW(), 1, 'White rice'),
+(1, 10, 'Sugar 1kg', 28.00, 22.00, 120, '6223000000102', NOW(), 1, 'Granulated sugar');
 -- Similarly for stores 3–10 (you can repeat pattern or randomize)
 
 -- -------------------------------

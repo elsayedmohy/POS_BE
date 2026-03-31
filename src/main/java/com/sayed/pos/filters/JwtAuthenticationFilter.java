@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         var storeId = jwt.getStoreIdFromToken(token);
         var role = jwt.getRoleFromToken(token);
         var authentication = new UsernamePasswordAuthenticationToken(
-                new AuthUser(userId, storeId),
+                new AuthUser(userId, storeId,role),
                 null,
                 List.of(
                         new SimpleGrantedAuthority("ROLE_" + role)

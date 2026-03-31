@@ -1,5 +1,6 @@
 package com.sayed.pos.modules.user.entity;
 
+import com.sayed.pos.common.dto.Role;
 import com.sayed.pos.modules.sale.entity.Sale;
 import com.sayed.pos.modules.store.entity.Store;
 import jakarta.persistence.*;
@@ -40,10 +41,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ColumnDefault("'CASHIER'")
-    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role;
+    private Role role;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
         @Column(name = "created_at", insertable = false, updatable = false)

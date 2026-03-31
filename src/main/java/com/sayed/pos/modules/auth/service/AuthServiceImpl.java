@@ -9,6 +9,7 @@ import com.sayed.pos.modules.auth.dto.*;
 import com.sayed.pos.modules.auth.mapper.UserMapper;
 import com.sayed.pos.modules.store.repository.StoreRepository;
 import com.sayed.pos.modules.store.service.StoreService;
+import com.sayed.pos.modules.user.dto.UserResponse;
 import com.sayed.pos.modules.user.repository.UserRepository;
 import com.sayed.pos.security.Jwt;
 import com.sayed.pos.security.JwtService;
@@ -60,17 +61,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthUserInfo register(RegisterRequest registerRequest) {
+    public UserResponse register(RegisterRequest registerRequest) {
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
             throw new ConflictException("Email already exists");
         }
         var store = storeService.create(registerRequest.getStoreName());
         var user = userMapper.toUser(registerRequest);
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setRole(Role.ADMIN.name());
+        user.setRole(Role.ADMIN);
         user.setStore(store);
         userRepository.save(user);
-        return userMapper.toRegisterResponse(user);
+        return userMapper.toResponse(user);
     }
 
     @Override
