@@ -5,9 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("select c from Category c where c.store.id = :storeId")
     List<Category> findAllByStoreId(Long storeId);
+
+    @Query("select c from Category c where  c.id = :categoryId and c.store.id = :storeId")
+    Optional<Category> findByIdAndStoreId(Long categoryId, Long storeId);
 }
