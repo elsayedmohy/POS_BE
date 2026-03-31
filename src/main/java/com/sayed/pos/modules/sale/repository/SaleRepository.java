@@ -22,5 +22,5 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             WHERE s.store.id = :storeId
             AND s.createdAt BETWEEN :from AND :to
             """)
-    Optional<BigDecimal> findSalesSum( @Param("storeId") Long storeId , @Param("from") Instant from, @Param("to") Instant to);
+    Optional<BigDecimal> findTotalSales( @Param("storeId") Long storeId , @Param("from") Instant from, @Param("to") Instant to);
 }

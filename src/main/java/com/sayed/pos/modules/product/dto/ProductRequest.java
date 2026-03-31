@@ -14,4 +14,6 @@ public class ProductRequest {
     private Long categoryId;
     @Size(min = 1, max = 100)
     private String barcode;
+    private boolean active;
+    private String description;
 }

@@ -10,7 +10,8 @@ import java.util.List;
 
 @Service
 public interface ReportService {
-    BigDecimal generateSalesSumReport(Long storeId, Instant from, Instant to);
+    BigDecimal generateTotalSalesReport(Long storeId, Instant from, Instant to);
+    int generateTotalUsers(Long storeId);
     int generateSalesCountReport(Long storeId, Instant from, Instant to);
     List<TopProductReportResponse> generateTopProductsReport(Long storeId, Instant from, Instant to  ,Integer limit);
     DashboardResponse generateDashboardReport(Long storeId, Instant from, Instant to , Integer limit );

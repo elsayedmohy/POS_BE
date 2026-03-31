@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     @Mapping(source = "category.name" ,target = "categoryName")
+    @Mapping(source = "category.id" ,target = "categoryId")
     ProductResponse toResponseDto(Product product);
     Product toEntity(ProductRequest productRequest);
 }

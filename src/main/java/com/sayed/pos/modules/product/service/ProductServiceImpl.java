@@ -69,6 +69,9 @@ public class ProductServiceImpl implements ProductService{
         product.setStock(request.getStock());
         product.setPrice(request.getPrice());
         product.setBarcode(request.getBarcode());
+        product.setDescription(request.getDescription());
+        product.setActive(request.isActive());
+        product.setBarcode(request.getBarcode());
         if(!product.getCategory().getId().equals(request.getCategoryId())) {
             var category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
             product.setCategory(category);

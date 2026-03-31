@@ -4,6 +4,7 @@ import com.sayed.pos.common.exception.BadRequestException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -32,5 +33,34 @@ public class DateUtils {
         if (from.isAfter(to)) {
             throw new BadRequestException("Invalid date range");
         }
+    }
+
+    public static LocalDate resolveFrom(LocalDate from) {
+        if (from != null) return from;
+        return LocalDate.now().withDayOfMonth(1);
+    }
+
+    public static LocalDate resolveTo(LocalDate to) {
+        if (to != null) return to;
+        return LocalDate.now();
+    }
+
+
+    public static Pair<Instant, Instant> resolveDateRange(LocalDate from, LocalDate to) {
+
+        LocalDate resolvedFrom = (from != null)
+                ? from
+                : LocalDate.now().withDayOfMonth(1);
+
+        LocalDate resolvedTo = (to != null)
+                ? to
+                : LocalDate.now();
+
+        DateUtils.validateDateRange(resolvedFrom, resolvedTo);
+
+        return Pair.of(
+                DateUtils.toStartOfDay(resolvedFrom),
+                DateUtils.toEndOfDay(resolvedTo)
+        );
     }
 }

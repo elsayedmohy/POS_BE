@@ -54,6 +54,13 @@ public class Product {
     @Column(name = "barcode", length = 100)
     private String barcode;
 
+    @Column(name = "active")
+    private boolean active;
+
+    @Size(max = 100)
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "created_at", insertable = false, updatable = false)
     private Instant createdAt;
 

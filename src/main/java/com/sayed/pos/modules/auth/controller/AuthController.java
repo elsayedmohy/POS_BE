@@ -42,7 +42,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<JwtResponse>> login(@CookieValue("refresh_token") String token) {
+    public ResponseEntity<ApiResponse<JwtResponse>> refresh(@CookieValue("refresh_token") String token) {
         try {
             JwtResponse response = authService.refresh(token);
             return ResponseEntity

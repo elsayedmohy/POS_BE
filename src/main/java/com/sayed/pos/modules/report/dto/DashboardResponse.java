@@ -9,8 +9,9 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class DashboardResponse {
-    private BigDecimal totalSales;
-    private int totalOrders; // sales count
+    private BigDecimal totalRevenue;
+    private int totalSales;
+    private int totalUsers;
     private BigDecimal averageOrderValue;
     private List<TopProductReportResponse> topProducts;
 }

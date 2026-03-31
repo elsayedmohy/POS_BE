@@ -2,6 +2,7 @@ package com.sayed.pos.modules.report.controller;
 
 
 import com.sayed.pos.common.exception.BadRequestException;
+import com.sayed.pos.common.response.ApiResponse;
 import com.sayed.pos.common.util.DateUtils;
 import com.sayed.pos.modules.report.dto.DashboardResponse;
 import com.sayed.pos.modules.report.dto.TopProductReportResponse;
@@ -11,8 +12,10 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +36,14 @@ public class ReportController {
     private final ReportService reportService;
     private final DateUtils dateUtils;
 
+
+    @GetMapping("/users/total")
+    public ResponseEntity<Map<String,Integer>> totalUsers(@AuthenticationPrincipal AuthUser user) {
+        return ResponseEntity.ok(Map.of(
+                "totalUsers" , reportService.generateTotalUsers(user.getStoreId())
+        ));
+    }
+
     @GetMapping("/sales/total")
     public ResponseEntity<Map<String,BigDecimal>> getSalesSum(@AuthenticationPrincipal AuthUser user,
                                            @RequestParam
@@ -45,7 +56,7 @@ public class ReportController {
         Instant toInstant = DateUtils.toEndOfDay(to);
         DateUtils.validateDateRange(from, to);
         return ResponseEntity.ok(Map.of(
-                "totalSales" , reportService.generateSalesSumReport(user.getStoreId(), fromInstant, toInstant)
+                "totalSales" , reportService.generateTotalSalesReport(user.getStoreId(), fromInstant, toInstant)
         ));
     }
 
@@ -90,26 +101,38 @@ public class ReportController {
 
 
     @GetMapping("/dashboard")
-    public ResponseEntity<DashboardResponse> dashboard(
+    public ResponseEntity<ApiResponse<DashboardResponse>> dashboard(
             @AuthenticationPrincipal AuthUser user,
-            @RequestParam
-            @NotNull
+            @RequestParam(required = false)
             LocalDate from,
-            @RequestParam
-            @NotNull
+            @RequestParam(required = false)
             LocalDate to,
             @RequestParam(required = false)
                     @Min(1)
                     @Max(100)
             Integer limit) {
+        if (limit == null) {
+            limit = 10;
+        }
         if (limit <= 0) {
             throw new BadRequestException("Limit must be positive");
         }
-        Instant fromInstant = DateUtils.toStartOfDay(from);
-        Instant toInstant = DateUtils.toEndOfDay(to);
-        DateUtils.validateDateRange(from, to);
-        return ResponseEntity.ok(
-                reportService.generateDashboardReport(user.getStoreId(), fromInstant, toInstant ,limit));
+
+        var s = DateUtils.resolveDateRange(from,to);
+        LocalDate resolvedFrom = DateUtils.resolveFrom(from);
+        LocalDate resolvedTo = DateUtils.resolveTo(to);
+
+        DateUtils.validateDateRange(resolvedFrom, resolvedTo);
+
+        Instant fromInstant = DateUtils.toStartOfDay(resolvedFrom);
+        Instant toInstant = DateUtils.toEndOfDay(resolvedTo);
+        try {
+        var response = reportService.generateDashboardReport(user.getStoreId(), fromInstant, toInstant ,limit);
+            return ResponseEntity.ok(ApiResponse.success(response , "success"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.error(e.getMessage()));
+        }
     }
 
 }

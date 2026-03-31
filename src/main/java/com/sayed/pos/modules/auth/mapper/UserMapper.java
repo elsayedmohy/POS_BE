@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     User toUser(RegisterRequest request);
-    AuthResponse toAuthResponse(    User user,String token);
+    AuthResponse toAuthResponse(User user,String token);
     @Mapping(source = "store.name", target = "storeName")
     AuthUserInfo toRegisterResponse(User user);
 }
