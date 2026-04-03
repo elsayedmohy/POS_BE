@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface SaleMapper {
     @Mapping(source = "items", target = "items")
+    @Mapping(source = "user.name", target = "createdBy")
     SaleResponse toResponse(Sale sale);
     SaleItemResponse toItemResponse(SaleItem saleItem);
 }

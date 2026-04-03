@@ -1,5 +1,6 @@
 package com.sayed.pos.modules.sale.entity;
 
+import com.sayed.pos.common.dto.PaymentMethod;
 import com.sayed.pos.modules.store.entity.Store;
 import com.sayed.pos.modules.user.entity.User;
 import jakarta.persistence.*;
@@ -37,10 +38,20 @@ public class Sale {
     @Column(name = "total_amount", precision = 10, scale = 2)
     private BigDecimal totalAmount;
 
-    @ColumnDefault("'CASH'")
-    @Lob
-    @Column(name = "payment_method")
-    private String paymentMethod;
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    @Column(name = "subtotal", precision = 10, scale = 2)
+    private BigDecimal subtotal;
+
+    @Column(name = "tax_amount", precision = 10, scale = 2)
+    private BigDecimal taxAmount;
+
+    @Column(name = "discount_amount", precision = 10, scale = 2)
+    private BigDecimal discountAmount;
+
+    @Column(name = "customer_name")
+    private String customerName;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
         @Column(name = "created_at", insertable = false, updatable = false)

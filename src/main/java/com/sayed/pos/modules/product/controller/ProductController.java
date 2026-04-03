@@ -40,20 +40,6 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping("/{productId}")
-    public ResponseEntity<ApiResponse<?>> deleteById(@PathVariable Long productId ,@AuthenticationPrincipal AuthUser user) {
-        Long storeId = user.getStoreId();
-        try {
-            productService.deleteById(productId , storeId);
-
-            return ResponseEntity.ok(ApiResponse.success(null , String.valueOf(HttpStatus.NO_CONTENT)));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.error(e.getMessage()));
-        }
-
-    }
-
     @PostMapping("")
     public ResponseEntity<ApiResponse<ProductResponse>> create(@AuthenticationPrincipal AuthUser user, @Valid @RequestBody ProductRequest request) {
         Long storeId = user.getStoreId();
@@ -79,4 +65,21 @@ public class ProductController {
                     .body(ApiResponse.error(e.getMessage()));
         }
     }
+
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<ApiResponse<?>> deleteById(@PathVariable Long productId ,@AuthenticationPrincipal AuthUser user) {
+        Long storeId = user.getStoreId();
+        try {
+            productService.deleteById(productId , storeId);
+
+            return ResponseEntity.ok(ApiResponse.success(null , String.valueOf(HttpStatus.NO_CONTENT)));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.error(e.getMessage()));
+        }
+
+    }
+
+
 }
